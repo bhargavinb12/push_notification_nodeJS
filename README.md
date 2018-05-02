@@ -1,57 +1,72 @@
-Push Notification Angular5 Base Code
+# Push notifications for new followers.
 
-The web Push Notification project  is an effort to create a project similar to the Nature Net site.
-The project basically focuses on creating a sign-up option, login , assigning special privileges to the logged in user like adding an article or editing his own article. 
-The users can subscribe or un-subscribe to get notifications when a desired user pushes an article.
-The project is implemented using Angular5 for front-end and firebase as back-up.
+This sample demonstrates how to send a push notification from a Realtime Database triggered Function. The sample also features a Web UI to experience the push notification.
 
-Installation 
 
-The first step is installing the angular-cli :-
+## Functions Code
 
-1. npm install -g @angular/cli
-2. ng new my-app
-3. cd my-app
-4. ng serve
+See file [functions/index.js](functions/index.js) for the code.
 
-Test the setup :-
-open http://localhost:4200
+Sending the notification is done using the [Firebase Admin SDK](https://www.npmjs.com/package/firebase-admin). The Web client writes the individual device tokens to the realtime database which the Function uses to send the notification.
 
-The second step is to create an account on firebase .
+The dependencies are listed in [functions/package.json](functions/package.json).
 
-The third step is installing firebase and angularfire :-
 
-1. npm install --save firebase@^4.4.0 angularfire2@^5.0.0-rc.2
+## Sample Database Structure
 
-The fourth step is adding the Firebase config to environments variable.
+Users sign into the app and are requested to enable notifications on their browsers. If they successfully enable notifications the device token is saved into the datastore under `/users/$uid/notificationTokens`.:
 
-1. Open /src/environments/environment.ts and add your Firebase configuration. The project configuration is found in the Firebase console.
-   
-Consider the following example:-
-   export const environment = {
-    production: false,
-    firebase: {
-    apiKey: '<your-key>',
-    authDomain: '<your-project-authdomain>',
-    databaseURL: '<your-database-URL>',
-    projectId: '<your-project-id>',
-    storageBucket: '<your-storage-bucket>',
-    messagingSenderId: '<your-messaging-sender-id>'
-  }
-};
+```
+/functions-project-12345
+    /users
+        /Uid-12345
+            displayName: "Bob Dole"
+            /notificationTokens
+                1234567890: true
+            photoURL: "https://lh3.googleusercontent.com/..."
 
-The fifth step is import all the required modules in your application.
+```
 
-Build With :-
+If a user starts following another user we'll write to `/followers/$followedUid/$followerUid`:
 
-Visual Studio - IDE
-Firebase      - Database
+```
+/functions-project-12345
+    /followers
+        /followedUid-12345
+            followerUid-67890: true
+    /users
+        /Uid-12345
+            displayName: "Bob Dole"
+            /notificationTokens
+                1234567890: true
+            photoURL: "https://lh3.googleusercontent.com/..."
 
-Acknowledgements :-
+```
+
+
+## Trigger rules
+
+The function triggers every time the value of a follow flag changes at `/followers/$followedUid/$followerUid`.
+
+
+## Deploy and test
+
+This sample comes with a web-based UI for testing the function. To test it out:
+
+ 1. Create a Firebase Project using the [Firebase Console](https://console.firebase.google.com).
+ 1. Enable **Google Provider** in the [Auth section](https://console.firebase.google.com/project/_/authentication/providers)
+ 1. Clone or download this repo
+ 1. You must have the Firebase CLI installed. If you don't have it install it with `npm install -g firebase-tools` and then configure it with `firebase login`.
+ 1. Configure the CLI locally by using `firebase use --add` and select your project in the list.
+ 1. Install dependencies locally by running: `cd functions; npm install; cd -`
+ 1. Deploy your project using `firebase deploy`
+ 1. Open the app using `firebase open hosting:site`, this will open a browser.
+ 1. Start following a user, this will send a notification to him.
+
+
+## Acknowledgements :-
 
 Inspiration for idea -
 
 1. Stephen MacNeil
 2. Mohammad Javad Mahzoon
-
-
