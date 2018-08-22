@@ -27,7 +27,7 @@ Users sign into the app and are requested to enable notifications on their brows
 
 ```
 
-If a user starts following another user we'll write to `/followers/$followedUid/$followerUid`:
+If a user starts following another use, we'll write to `/followers/$followedUid/$followerUid`:
 
 ```
 /functions-project-12345
@@ -56,7 +56,7 @@ This sample comes with a web-based UI for testing the function. To test it out:
  1. Create a Firebase Project using the [Firebase Console](https://console.firebase.google.com).
  1. Enable **Google Provider** in the [Auth section](https://console.firebase.google.com/project/_/authentication/providers)
  1. Clone or download this repo
- 1. You must have the Firebase CLI installed. If you don't have it install it with `npm install -g firebase-tools` and then configure it with `firebase login`.
+ 1. You must have the Firebase CLI installed. If you don't have it, install it with `npm install -g firebase-tools` and then configure it with `firebase login`.
  1. Configure the CLI locally by using `firebase use --add` and select your project in the list.
  1. Install dependencies locally by running: `cd functions; npm install; cd -`
  1. Deploy your project using `firebase deploy`
@@ -66,7 +66,7 @@ This sample comes with a web-based UI for testing the function. To test it out:
 
 ## Acknowledgements :-
 
-Inspiration for idea -
+Inspiration for ideas -
 
 1. Stephen MacNeil
 2. Mohammad Javad Mahzoon
